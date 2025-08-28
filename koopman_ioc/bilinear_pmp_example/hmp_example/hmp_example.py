@@ -205,13 +205,14 @@ x1, x2, x3 = sp.symbols('x1 x2 x3', real=True)
 
 deg = 1
 monomials = sorted(itermonomials([x1, x2, x3, sp.cos(x3), sp.sin(x3)], deg), key=monomial_key('grlex', [sp.sin(x3), sp.cos(x3), x3, x2, x1]))
+monomials = [monomials[1], monomials[2], monomials[3], monomials[4], monomials[5], monomials[0]] # To fit example dimensions perfectly
 basis = sp.lambdify((x1,x2,x3),monomials,"numpy")
 
 print(monomials)
 
 # Dictionary of monomials for EDMDc, deg = 3 i.e. 20 total dictionary functions
 def basis_fun(X):
-    ret = np.vstack((np.ones((1,X.shape[0])),np.array(basis(X[:,0],X[:,1],X[:,2])[1:]))) 
+    ret = np.vstack((np.array(basis(X[:,0],X[:,1],X[:,2])[:-1]), np.ones((1,X.shape[0])))) 
     return ret
 
 # EDMDc

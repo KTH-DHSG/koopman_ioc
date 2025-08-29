@@ -29,7 +29,7 @@ u1 = ca.MX.sym('u1')
 u2 = ca.MX.sym('u2')
 
 # Sampling time dt < 1
-dt = 1/50 # 100 Hz
+dt = 1/100 # 100 Hz
 
 # State dynamics
 f = ca.vertcat(x1 + dt*u1*ca.cos(x3), x2 + dt*u1*ca.sin(x3), x3 + dt*u2)

@@ -55,45 +55,45 @@ for tid in test_ids:
     ax.plot(traj[:, 0], traj[:, 1], color=test_color, linewidth=1.2)
     # label near the midpoint of each trajectory
     mid = len(traj) // 2
-    ax.text(traj[mid, 0], traj[mid, 1], f'{tid}', color=test_color, fontsize=10,
+    ax.text(traj[mid, 0], traj[mid, 1], f'{tid}', color=test_color, fontsize=14,
             ha='center', va='center', bbox=dict(boxstyle='round,pad=0.15', fc='white', ec='none', alpha=0.8))
 
-ax.set_xlabel('x position')
-ax.set_ylabel('y position')
-ax.set_title('Trajectories')
+ax.set_xlabel('x position', fontsize=14)
+ax.set_ylabel('y position', fontsize=14)
+ax.set_title('Trajectories', fontsize=16)
 ax.grid(True, alpha=0.3)
 # No legend per requirement
 
-# ------------------------------ INSET PANELS ------------------------------
-# Paths to existing test-trajectory figures
-inset_images = {
-    26: 'images/R01_traj26_fullview2.png',
-    28: 'images/R01_traj28_fullview2.png',
-    39: 'images/R01_traj39_fullview2.png',
-    46: 'images/R01_traj46_fullview2.png',
-}
-# Positions in axes fraction (x,y) for TL, TR, BR, BL
-positions = {
-    26: (0.02, 0.98),   # top-left
-    28: (0.98, 0.98),   # top-right
-    39: (0.98, 0.02),   # bottom-right
-    46: (0.02, 0.02),   # bottom-left
-}
-# A reasonable zoom (adjust if needed)
-zoom = 0.40
+# # ------------------------------ INSET PANELS ------------------------------
+# # Paths to existing test-trajectory figures
+# inset_images = {
+#     26: 'images/R01_traj26_fullview2.png',
+#     28: 'images/R01_traj28_fullview2.png',
+#     39: 'images/R01_traj39_fullview2.png',
+#     46: 'images/R01_traj46_fullview2.png',
+# }
+# # Positions in axes fraction (x,y) for TL, TR, BR, BL
+# positions = {
+#     26: (0.02, 0.98),   # top-left
+#     28: (0.98, 0.98),   # top-right
+#     39: (0.98, 0.02),   # bottom-right
+#     46: (0.02, 0.02),   # bottom-left
+# }
+# # A reasonable zoom (adjust if needed)
+# zoom = 0.40
 
-for tid, img_path in inset_images.items():
-    if not os.path.isfile(img_path):
-        print(f'Warning: inset image not found: {img_path}')
-        continue
-    arr_img = plt.imread(img_path)
-    imagebox = OffsetImage(arr_img, zoom=zoom)
-    ab = AnnotationBbox(imagebox, positions[tid], xycoords='axes fraction',
-                        frameon=True, boxcoords='axes fraction', pad=0.02, bboxprops=dict(edgecolor='0.6'))
-    ax.add_artist(ab)
+# for tid, img_path in inset_images.items():
+#     if not os.path.isfile(img_path):
+#         print(f'Warning: inset image not found: {img_path}')
+#         continue
+#     arr_img = plt.imread(img_path)
+#     imagebox = OffsetImage(arr_img, zoom=zoom)
+#     ab = AnnotationBbox(imagebox, positions[tid], xycoords='axes fraction',
+#                         frameon=True, boxcoords='axes fraction', pad=0.02, bboxprops=dict(edgecolor='0.6'))
+#     ax.add_artist(ab)
 
-plt.tight_layout()
-# Save the composite
+# plt.tight_layout()
+# # Save the composite
 os.makedirs('images', exist_ok=True)
-plt.savefig('images/trajs_composite.png', dpi=300, bbox_inches='tight')
+plt.savefig('images/trajs_alone.png', dpi=300, bbox_inches='tight')
 plt.close(fig)

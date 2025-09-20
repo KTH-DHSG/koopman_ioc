@@ -83,7 +83,7 @@ u_star = np.array(u_star)  # shape (M, trajectory_length, 2)
 start_pt = np.array(start_pt)  # shape (M, 3)
 
 # Read the test data from the last trajectory
-filename = f'{filepath}/test26.csv'
+filename = f'{filepath}/test46.csv'
 data = pd.read_csv(filename)
 x_pos = data['x_pos'].values
 y_pos = data['y_pos'].values
@@ -246,6 +246,6 @@ traj_x1,traj_x2,_,_,_ = generateTrajectory(test_start_pt, trajectory_length, 1,
 plt.plot(traj_x1, traj_x2, 'g-o', label='Bilinear trajectory')
 # Plot the actual trajectory for the test set
 plt.plot(test_states[:, 0], test_states[:, 1], 'k-x', label='Actual trajectory')
-plt.legend(loc='lower right')
+plt.legend(loc='best', fontsize=16)
 plt.grid()
 plt.show()

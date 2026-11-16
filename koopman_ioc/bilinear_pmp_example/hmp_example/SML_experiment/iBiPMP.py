@@ -1,5 +1,6 @@
 import numpy as np
 from tqdm import tqdm
+from scipy.optimize import nnls
 
 
 ## ------------------------- INVERSE Bilinear PMP -------------------------
@@ -77,11 +78,22 @@ def iBiPMP(A, B, X_star, U_star):
     # print("Rank of constrained AAB : " + str(np.linalg.matrix_rank(AAB[:, upper_tri_indices])))
     # print("Dims of constrained AAB : " + str(AAB[:, upper_tri_indices].shape))
 
-    # If we only consider the diagonal elements of Q -> symmetric & zero off-diagonal constraints enforced
-    diagonal_indices = [i * (X_star.shape[2] + 1) for i in range(X_star.shape[2])]
-    vecQ = np.linalg.lstsq(AAB[:, diagonal_indices], -U_star[:,0:N-2,:].reshape(1,-1).T, rcond=None)[0]
-    Q_re = np.zeros((X_star.shape[2], X_star.shape[2]))
-    np.fill_diagonal(Q_re, vecQ)
+    # Diagonal positive-semidefinite cost estimation
+    diagonal_indices = [i * (n + 1) for i in range(n)]
+
+    G = AAB[:, diagonal_indices]
+    b = -U_star[:, :N-2, :].reshape(-1)
+
+    # Exclude numerically unidentifiable constant-cost features
+    norms = np.linalg.norm(G, axis=0)
+    active = norms > 1e-9 * norms.max()
+
+    vecQ = np.zeros((n, 1))
+    vecQ[active, 0] = nnls(G[:, active], b)[0]
+
+    Q_re = np.diag(vecQ.ravel())
+
+    assert np.min(np.linalg.eigvalsh(Q_re)) >= -1e-10
     print("Rank of constrained AAB : " + str(np.linalg.matrix_rank(AAB[:, diagonal_indices])))
     print("Dims of constrained AAB : " + str(AAB[:, diagonal_indices].shape))
 

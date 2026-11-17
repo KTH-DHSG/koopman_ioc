@@ -3,16 +3,6 @@
 Dependencies:
 Casadi for Matlab & Python (download from here: https://web.casadi.org/get/).
 
-## To Do
-
-- [x] Re-check all the old code and materials and clean it.
-- [x] Finish coding a full Koopman IOC example.
-- [X] Analyze Koopman IOC solution, derive assumptions and Theorem and update overleaf to have a full explanation.
-- [x] Develop solution to fix unicycle dynamics.
-- [?] Develop solution to fix obstacle avoidance.
-- [?] Code and test a Human Motion Prediction experiment.
-- [X] Write a full paper.
-
 ## Summary
 
 ### inverse_lqr
